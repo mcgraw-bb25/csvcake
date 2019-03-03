@@ -1,0 +1,261 @@
+<!--
+	Copyright 2009 The Go Authors. All rights reserved.
+	Use of this source code is governed by a BSD-style
+	license that can be found in the LICENSE file.
+-->
+<!--
+	Note: Static (i.e., not template-generated) href and id
+	attributes start with "pkg-" to make it impossible for
+	them to conflict with generated attributes (some of which
+	correspond to Go identifiers).
+-->
+
+	<script type='text/javascript'>
+	document.ANALYSIS_DATA = ;
+	document.CALLGRAPH = ;
+	</script>
+
+	
+		
+		<div id="short-nav">
+			<dl>
+			<dd><code>import "."</code></dd>
+			</dl>
+			<dl>
+			<dd><a href="#pkg-overview" class="overviewLink">Overview</a></dd>
+			<dd><a href="#pkg-index" class="indexLink">Index</a></dd>
+			
+			
+			</dl>
+		</div>
+		<!-- The package's Name is printed as title by the top-level template -->
+		<div id="pkg-overview" class="toggleVisible">
+			<div class="collapsed">
+				<h2 class="toggleButton" title="Click to show Overview section">Overview ▹</h2>
+			</div>
+			<div class="expanded">
+				<h2 class="toggleButton" title="Click to hide Overview section">Overview ▾</h2>
+				<p>
+Package iterscanner implements an iteration based CSV scanner.
+</p>
+
+			</div>
+		</div>
+		
+
+		<div id="pkg-index" class="toggleVisible">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Index section">Index ▹</h2>
+		</div>
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Index section">Index ▾</h2>
+
+		<!-- Table of contents for API; must be named manual-nav to turn off auto nav. -->
+			<div id="manual-nav">
+			<dl>
+			
+			
+			
+			
+				
+				<dd><a href="#Bakeable">type Bakeable</a></dd>
+				
+				
+			
+				
+				<dd><a href="#IterScanner">type IterScanner</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#NewIterScanner">func NewIterScanner(filename string, modelFactory Bakeable) (IterScanner, error)</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#IterScanner.Close">func (i *IterScanner) Close() error</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#IterScanner.Next">func (i *IterScanner) Next() (interface{}, error)</a></dd>
+				
+			
+			
+			</dl>
+			</div><!-- #manual-nav -->
+
+		
+
+		
+			<h3>Package files</h3>
+			<p>
+			<span style="font-size:90%">
+			
+				<a href="/src/target/interfaces.go">interfaces.go</a>
+			
+				<a href="/src/target/iterscanner.go">iterscanner.go</a>
+			
+				<a href="/src/target/preparers.go">preparers.go</a>
+			
+			</span>
+			</p>
+		
+		</div><!-- .expanded -->
+		</div><!-- #pkg-index -->
+
+		<div id="pkg-callgraph" class="toggle" style="display: none">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Internal Call Graph section">Internal call graph ▹</h2>
+		</div> <!-- .expanded -->
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Internal Call Graph section">Internal call graph ▾</h2>
+			<p>
+			  In the call graph viewer below, each node
+			  is a function belonging to this package
+			  and its children are the functions it
+			  calls&mdash;perhaps dynamically.
+			</p>
+			<p>
+			  The root nodes are the entry points of the
+			  package: functions that may be called from
+			  outside the package.
+			  There may be non-exported or anonymous
+			  functions among them if they are called
+			  dynamically from another package.
+			</p>
+			<p>
+			  Click a node to visit that function's source code.
+			  From there you can visit its callers by
+			  clicking its declaring <code>func</code>
+			  token.
+			</p>
+			<p>
+			  Functions may be omitted if they were
+			  determined to be unreachable in the
+			  particular programs or tests that were
+			  analyzed.
+			</p>
+			<!-- Zero means show all package entry points. -->
+			<ul style="margin-left: 0.5in" id="callgraph-0" class="treeview"></ul>
+		</div>
+		</div> <!-- #pkg-callgraph -->
+
+		
+		
+		
+		
+			
+			
+			<h2 id="Bakeable">type <a href="/src/target/interfaces.go?s=532:601#L3">Bakeable</a>
+				<a class="permalink" href="#Bakeable">&#xb6;</a>
+			</h2>
+			<p>
+Bakeable interfaces implement Bake(), which is a
+close cousin of the more general Clone() concept.
+However Bake here is used specifically for CSV rows
+which have been prepared, and therefore are typed
+to match a destination struct.  The interface returned
+should be a newly created struct that conforms to the
+underlying type of the Bakeable.  Bake is used in
+calls to Next() in order to return an interface to
+the caller that is safe to cast into a struct
+of the underlying type.
+</p>
+
+			<pre>type Bakeable interface {
+    Bake(map[<a href="/pkg/builtin/#string">string</a>]interface{}) interface{}
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="IterScanner">type <a href="/src/target/iterscanner.go?s=489:660#L9">IterScanner</a>
+				<a class="permalink" href="#IterScanner">&#xb6;</a>
+			</h2>
+			<p>
+Iterscanner is the centralized struct to manage iteratively
+parsing a CSV.  It holds the reference Bakeable interface
+and the original filename upon initialization via NewIterScanner.
+Upon initialization this struct holds the pointers to the
+os and csv package types File and Reader respectively.
+</p>
+
+			<pre>type IterScanner struct {
+<span id="IterScanner.Filename"></span>    Filename     <a href="/pkg/builtin/#string">string</a>
+<span id="IterScanner.ModelFactory"></span>    ModelFactory <a href="#Bakeable">Bakeable</a>
+    <span class="comment">// contains filtered or unexported fields</span>
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+				
+				<h3 id="NewIterScanner">func <a href="/src/target/iterscanner.go?s=908:988#L24">NewIterScanner</a>
+					<a class="permalink" href="#NewIterScanner">&#xb6;</a>
+				</h3>
+				<pre>func NewIterScanner(filename <a href="/pkg/builtin/#string">string</a>, modelFactory <a href="#Bakeable">Bakeable</a>) (<a href="#IterScanner">IterScanner</a>, <a href="/pkg/builtin/#error">error</a>)</pre>
+				<p>
+NewIterScanner is an initialization function to return a properly
+initialized IterScanner.  It delegates into three unexported functions
+initializeCSV, initializePreparers, and initializeHeader to
+properly initialize the IterScanner.
+</p>
+
+				
+				
+			
+
+			
+				
+				<h3 id="IterScanner.Close">func (*IterScanner) <a href="/src/target/iterscanner.go?s=3568:3603#L116">Close</a>
+					<a class="permalink" href="#IterScanner.Close">&#xb6;</a>
+				</h3>
+				<pre>func (i *<a href="#IterScanner">IterScanner</a>) Close() <a href="/pkg/builtin/#error">error</a></pre>
+				<p>
+Close is the method to actually close the embedded *os.File
+that IterScanner is reading from.  This should be closed by
+using defer myIterScanner.Close() in the function that initializes
+the IterScanner.
+</p>
+
+				
+				
+				
+			
+				
+				<h3 id="IterScanner.Next">func (*IterScanner) <a href="/src/target/iterscanner.go?s=3940:3989#L127">Next</a>
+					<a class="permalink" href="#IterScanner.Next">&#xb6;</a>
+				</h3>
+				<pre>func (i *<a href="#IterScanner">IterScanner</a>) Next() (interface{}, <a href="/pkg/builtin/#error">error</a>)</pre>
+				<p>
+Next calls the next Read() on the csv file and returns
+and interface that conforms to the Bake() factory.
+Some inspiration from this blog post =&gt; <a href="https://ewencp.org/blog/golang-iterators/">https://ewencp.org/blog/golang-iterators/</a>
+</p>
+
+				
+				
+				
+			
+		
+	
+
+	
+
+
+
+
+

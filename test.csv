@@ -1,0 +1,4 @@
+name,is_allowed_restaurant,age,weight_lbs,100m_sprint
+Matt,TRUE,35,185.5,12
+Michael,FALSE,38,165,13.2
+David,FALSE,32,210,14.5
