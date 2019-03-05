@@ -20,8 +20,9 @@ type IterScanner struct {
 	Filename     string
 	ModelFactory Bakeable
 
-	preparers map[string]string
-	headers   map[int]string
+	preparers      map[string]string
+	headers        map[int]string
+	reverseHeaders map[string]int
 
 	csvFile   *os.File
 	csvReader *csv.Reader
@@ -37,6 +38,7 @@ func NewIterScanner(filename string, modelFactory Bakeable) (IterScanner, error)
 		ModelFactory: modelFactory}
 	n.preparers = make(map[string]string)
 	n.headers = make(map[int]string)
+	n.reverseHeaders = make(map[string]int)
 
 	err := n.initializeCSV()
 	if err != nil {
@@ -113,6 +115,7 @@ func (i *IterScanner) initializeHeader() error {
 		_, ok := i.preparers[column]
 		if ok {
 			i.headers[index] = column
+			i.reverseHeaders[column] = index
 		}
 	}
 
@@ -142,12 +145,8 @@ func (i *IterScanner) Next() (interface{}, error) {
 		return nil, err
 	}
 
-	for index, column := range row {
-		columnName := i.headers[index]
-		_, ok := i.preparers[columnName]
-		if ok {
-			nextRecord[columnName] = column
-		}
+	for columnName, idx := range i.reverseHeaders {
+		nextRecord[columnName] = row[idx]
 	}
 
 	newVal := make(map[string]interface{})
