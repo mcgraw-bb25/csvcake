@@ -14,17 +14,16 @@ func main() {
 	records, err := mapreader.MapReader(filename)
 	if err != nil {
 		fmt.Println(err)
-	} else {
-		var sum int64
-		var nextAge int64
-		for _, record := range records {
-			nextAge, err = strconv.ParseInt(record["age"], 10, 32)
-			if err != nil {
-				nextAge = 0
-			}
-			sum = sum + nextAge
-		}
-		fmt.Printf("Total age: %d\n", sum)
 	}
+	var sum int64
+	var nextAge int64
+	for _, record := range records {
+		nextAge, err = strconv.ParseInt(record["age"], 10, 32)
+		if err != nil {
+			nextAge = 0
+		}
+		sum = sum + nextAge
+	}
+	fmt.Printf("Total age: %d\n", sum)
 
 }
