@@ -18,6 +18,9 @@ The pattern `if err != nil {...}` is a standard idiom found in Go - "try this, b
 Instead of considering errors to be out of the ordinary, Go lets authors keep errors at the forefront of their programs.  Errors should be dealt with in explicit and clear ways that prevent undefined behaviour in later parts of the program.
 
 ### range
+Go offers its users a convenient way to iterate over several types: arrays/slices, maps, strings, and channels.  Using the `range` keyword will unpack two values for each iteration over the iterable, and it varies depending on the type.  For simplicity, when iterating over an array the left value will be the current array index and the right value will be the value of the element at that index position.  When `range`-ing over a map the left value will be the key and the right value will be the object.  It is not uncommon to use an underscore to discard an object if it is not needed.  In this case the `v1/main.go` discards the index.
+
+[Official notes](https://github.com/golang/go/wiki/Range) and [Go By Example](https://gobyexample.com/range).
 
 ### defer
 
