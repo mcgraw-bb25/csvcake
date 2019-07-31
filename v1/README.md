@@ -24,4 +24,4 @@ Go offers its users a convenient way to iterate over several types: arrays/slice
 
 ### defer
 
-It is
+If you've ever wanted to add a callback function to a registery that will run after a function has returned then you've come to the right place!  In Go `defer` will call the deferred function once the function has returned to the caller.  Most commonly associated with resource cleanup, it can also be used for locking (similar to a context manager in Python) or use cases sometimes associated with function decorators (such as timing/profiling a function call).
